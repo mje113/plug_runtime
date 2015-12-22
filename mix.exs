@@ -1,12 +1,19 @@
 defmodule PlugRuntime.Mixfile do
   use Mix.Project
 
+  @description """
+    A simple Plug to measure the runtime of a request. Results will be in the
+    X-Runtime header.
+  """
+
   def project do
     [app: :plug_runtime,
      version: "0.0.1",
      elixir: "~> 1.1",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     description: @description,
+     package: package,
      deps: deps]
   end
 
@@ -30,19 +37,10 @@ defmodule PlugRuntime.Mixfile do
     [{:plug, "~> 1.0"}]
   end
 
-  defp description do
-    """
-    A simple Plug to measure the runtime of a request. Results will be in the
-    X-Runtime header.
-    """
-  end
-
   defp package do
-    [# These are the default files included in the package
-     files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
-     maintainers: ["Mike Evans"],
-     licenses: ["Apache 2.0"],
-     links: %{"GitHub" => "https://github.com/mje113/plug_runtime",
+    [ maintainers: ["Mike Evans"],
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/mje113/plug_runtime",
               "Docs" => "http://mje113.github.io/plug_runtime/"}]
   end
 end
