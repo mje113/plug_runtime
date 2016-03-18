@@ -7,22 +7,21 @@ defmodule Plug.Runtime do
   end
 
   def call(conn, _opts) do
-    before_time = timestamp
+    before_time = time()
 
     conn
     |> register_before_send( &set_runtime_header(&1, before_time) )
   end
 
   defp set_runtime_header(conn, before_time) do
-    after_time = timestamp
-    diff = :timer.now_diff(after_time, before_time)
+    diff = time - before_time
 
     conn
     |> put_resp_header("x-runtime", formatted_diff(diff))
   end
 
-  defp timestamp do
-    :os.timestamp
+  defp time do
+    :erlang.monotonic_time(:micro_seconds)
   end
 
   defp formatted_diff(diff) when diff > 1000 do

@@ -30,7 +30,7 @@ defmodule Plug.RuntimeTest do
   test "adds X-Runtime header" do
     conn = conn(:get, "/hello") |> call()
     [res_runtime] = conn |> get_resp_header("x-runtime")
-    assert res_runtime != nil
+    assert Regex.match?(~r/(\d*)µs/, res_runtime)
   end
 
   test "adds X-Runtime header for slow request" do
